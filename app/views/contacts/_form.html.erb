@@ -1,4 +1,4 @@
-<%= form_for @contact do |f| %>          
+<%= form_for @contact, html: { multipart: true } do |f| %>          
     <div class="panel-body">
       
       <% if @contact.errors.any? %>
@@ -59,12 +59,7 @@
             <div class="form-group">
               <label for="group" class="control-label col-md-3">Group</label>
               <div class="col-md-5">
-                <select name="group" id="group" class="form-control">
-                  <option value="">Select group</option>
-                  <option value="1">Family</option>
-                  <option value="2">Friend</option>
-                  <option value="3">Other</option>
-                </select>
+                <%= f.collection_select :group_id, Group.all, :id, :name, { prompt: "Select Group" }, class: "form-control" %>
               </div>
               <div class="col-md-3">
                 <a href="#" id="add-group-btn" class="btn btn-default btn-block">Add Group</a>
@@ -85,12 +80,12 @@
           </div>
           <div class="col-md-4">
             <div class="fileinput fileinput-new" data-provides="fileinput">
-              <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
-                <img src="http://placehold.it/150x150" alt="Photo">
+              <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">                
+                <%= image_tag @contact.avatar.url(:medium) %>
               </div>
-              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 150px; max-height: 150px;"></div>
               <div class="text-center">
-                <span class="btn btn-default btn-file"><span class="fileinput-new">Choose Photo</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Choose Photo</span><span class="fileinput-exists">Change</span><%= f.file_field :avatar %></span>
                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
               </div>
             </div>
